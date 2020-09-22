@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Image;
+use Illuminate\Support\Facades\DB;
 
-class UploadController extends Controller
+class ImageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,8 @@ class UploadController extends Controller
      */
     public function index()
     {
-        return view('upload');
+        $images = DB::table('images')->get();
+        return view('upload', ['images'=> $images]);
     }
 
     /**
@@ -36,21 +37,7 @@ class UploadController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        if ($request->has('image')) {
-            $name = $request->file('image')->getClientOriginalName();
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $size = $request->file('image')->getSize();
-            $path = $request->file('image')->store('images','public');
-
-            Image::create([
-                'name' => $name,
-                'extension' => $extension,
-                'size' => $size,
-                'path' => $path,
-            ]);
-        }
-        return redirect('upload');
+        //
     }
 
     /**

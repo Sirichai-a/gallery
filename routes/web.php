@@ -9,8 +9,9 @@ Route::get('/', function () {
 });
 
 Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/upload','UploadController@index');
 Route::post('/addimage','UploadController@store')->name('addimage');
+
+Route::get('/upload', 'ImageController@index');
