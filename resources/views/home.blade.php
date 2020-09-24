@@ -10,7 +10,7 @@
                 <p>
                     Name: {{$user->name}} <br>
                     Email: {{$user->email}}
-                </p> 
+                </p>
                 @endforeach
                     <a href="{{ url('upload') }}">Gallery</a>
                 </div>

@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\File; 
+
 use App\Image;
+
+use Illuminate\Support\Facades\Storage;
 
 class UploadController extends Controller
 {
@@ -72,7 +76,8 @@ class UploadController extends Controller
      */
     public function edit($id)
     {
-        //
+        $images = Image::find($id);
+        return view('changeimage')->with('images',$images);
     }
 
     /**
@@ -84,7 +89,24 @@ class UploadController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // $images = Image::find($id);
+
+        if ($request->has('image')) {
+            $name = $request->file('image')->getClientOriginalName();
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $size = $request->file('image')->getSize();
+            $path = $request->file('image')->store('images','public');
+
+
+            Image::where('id',$id)->update([
+                'name' => $name,
+                'extension' => $extension,
+                'size' => $size,
+                'path' => $path,
+            ]);
+        }
+        return redirect('upload');
+    
     }
 
     /**
@@ -95,6 +117,9 @@ class UploadController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $del = Image::find($id);
+        File::delete('storage/'.$del->path);
+        $del->delete();
+        return redirect('upload');
     }
 }

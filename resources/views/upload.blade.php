@@ -24,6 +24,8 @@
                         <th scope="col">Extension</th>
                         <th scope="col">Size</th>
                         <th scope="col">image</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,6 +36,14 @@
                         <td>{{ $image->extension }}</td>
                         <td>{{ $image->size }}</td>
                         <td><img src="{{ asset('storage/'.$image->path)}}" width="100px;" height="100px;" alt="Image"></td>
+                        <td><a href="/editimage/{{ $image->id }}" class="btn btn-success">Edit</a></td>
+                        <td>
+                            <form action="{{ route('deletefile', $image->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </td>
                         </tr>
                     @endforeach
                     </tbody>
